@@ -25,6 +25,17 @@ contract MyGame is ERC721 {
         uint attackDamage;
     }
 
+    struct Villan {
+        string name;
+        string imageURI;
+        uint256 hp;
+        uint256 maxHp;
+        uint256 attactDamage;
+    }
+
+    Villan public villan;
+    uint randNonce = 0;
+
     // default character list
     CharacterAttribute[] defaultCharaters;
 
@@ -38,14 +49,28 @@ contract MyGame is ERC721 {
     // mapping address => NFT tokenId
     mapping(address => uint256) public nftHolders;
 
+    // evnets
+    event CharacterNFTMinted(address sender, uint256 tokenId, uint256 characterIndex);
+    event AttackComplete(address sender, uint256 newVillanHp, uint256 newPlayerHp);
+
     // data passed into the contract when it's first created - inititalising
     constructor(
         string[] memory charName,
         string[] memory charImage,
         uint[] memory charHp,
         uint[] memory charMaxHp,
-        uint[] memory charAttackDamage
+        uint[] memory charAttackDamage,
+        string memory villanName,       // villan data need to be passed in run.js
+        string memory villanImageURI,
+        uint villanHp,
+        uint villanMaxHp,
+        uint villanAttackDamage
     ) ERC721("Heroes", "HERO") {
+
+        // initialising Villan
+        villan = Villan(villanName, villanImageURI, villanHp, villanMaxHp, villanAttackDamage);
+        console.log("Initialised Villan %s with hp : %s, img : %s", villan.name, villan.hp, villan.imageURI);
+
         // loop through all the characters and save in contract
         for (uint i = 0; i < charName.length; i += 1) {
             defaultCharaters.push(
@@ -98,6 +123,8 @@ contract MyGame is ERC721 {
 
         // Increment the tokenId for the next person that uses it.
         _tokenIds.increment();
+
+        emit CharacterNFTMinted(msg.sender, newItemId, _characterIndex);
     }
 
     function tokenURI(uint256 _tokenId) public view override returns (string memory) {
@@ -127,4 +154,83 @@ contract MyGame is ERC721 {
 
         return output;
     }
+
+    function randMod(uint _modulus) internal returns(uint) {
+        randNonce++;                                                     // increase nonce
+        return uint(keccak256(abi.encodePacked(block.timestamp,                      // an alias for 'block.timestamp'
+                                          msg.sender,                    // your address
+                                          randNonce))) % _modulus;       // modulo using the _modulus argument
+    }
+        
+    
+    function attackVillan() public {
+        uint256 nftTokenIdOfPlayer = nftHolders[msg.sender];
+        CharacterAttribute storage player = nftHolderAttributes[nftTokenIdOfPlayer];
+
+        console.log("Player about to attack - name : %s, hp : %s, AD : %s", player.name, player.hp, player.attackDamage);
+        console.log("Villan %s has %s hp` and %s AD", villan.name, villan.hp, villan.attactDamage);
+
+        require(
+            player.hp > 0, "Error: charater have less HP"
+        );
+
+        require(
+            villan.hp > 0, "Error: villan have less HP"
+        );
+
+        // attacking villan
+        if(villan.hp < player.attackDamage) {
+            villan.hp = 0;
+            console.log("Villan died");
+        } else {
+            if (randMod(10) > 6) {
+                villan.hp = villan.hp - player.attackDamage;
+                console.log("%s got attacked", player.name);
+            } else {
+                console.log("%s missed the attack", player.name);
+            }
+        }
+
+        // villan attacking back
+        if(player.hp < villan.attactDamage) {
+            player.hp = 0;
+            console.log("Player died");
+        } else {
+            if (randMod(10) > 3) {
+                player.hp = player.hp - villan.attactDamage;
+                console.log("%s got attacked", villan.name);
+            } else {
+                console.log("%s missed the attack", villan.name);
+            }
+        }
+
+        // Console for ease.
+        console.log("Player attacked villan. Updated Villan hp: %s", villan.hp);
+        console.log("Villan attacked player. Updated player hp: %s\n", player.hp);
+
+        emit AttackComplete(msg.sender, villan.hp, player.hp);
+    }
+
+    function checkIfUserHasNFT() public view returns(CharacterAttribute memory) {
+        // get tokenID of the character held by the user
+        uint256 userNftTokenId = nftHolders[msg.sender];
+
+        if(userNftTokenId > 0) {
+            return nftHolderAttributes[userNftTokenId];
+        } else {
+            CharacterAttribute memory emptyStruct;
+            return emptyStruct;
+        }
+    }
+
+    // get default characters
+    function getAllDefaultCharacters() public view returns (CharacterAttributes[] memory) {
+        return defaultCharaters;
+    }
+
+    // retrieve villan data
+    function getVillan() public view returns (Villan memory) {
+        return villan;
+    }
+
 }
