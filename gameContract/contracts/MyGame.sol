@@ -37,7 +37,7 @@ contract MyGame is ERC721 {
     uint randNonce = 0;
 
     // default character list
-    CharacterAttribute[] defaultCharaters;
+    CharacterAttribute[] defaultCharacters;
 
     // Unique token Ids
     using Counters for Counters.Counter;
@@ -73,7 +73,7 @@ contract MyGame is ERC721 {
 
         // loop through all the characters and save in contract
         for (uint i = 0; i < charName.length; i += 1) {
-            defaultCharaters.push(
+            defaultCharacters.push(
                 CharacterAttribute(
                     i,
                     charName[i],
@@ -84,7 +84,7 @@ contract MyGame is ERC721 {
                 )
             );
 
-            CharacterAttribute memory c = defaultCharaters[i];
+            CharacterAttribute memory c = defaultCharacters[i];
 
             console.log(
                 "Initialised % with %s, img %s",
@@ -105,11 +105,11 @@ contract MyGame is ERC721 {
 
         nftHolderAttributes[newItemId] = CharacterAttribute({
             characterIndex: _characterIndex,
-            name: defaultCharaters[_characterIndex].name,
-            imageURI: defaultCharaters[_characterIndex].imageURI,
-            hp: defaultCharaters[_characterIndex].hp,
-            maxHp: defaultCharaters[_characterIndex].maxHp,
-            attackDamage: defaultCharaters[_characterIndex].attackDamage
+            name: defaultCharacters[_characterIndex].name,
+            imageURI: defaultCharacters[_characterIndex].imageURI,
+            hp: defaultCharacters[_characterIndex].hp,
+            maxHp: defaultCharacters[_characterIndex].maxHp,
+            attackDamage: defaultCharacters[_characterIndex].attackDamage
         });
 
         console.log(
@@ -224,8 +224,8 @@ contract MyGame is ERC721 {
     }
 
     // get default characters
-    function getAllDefaultCharacters() public view returns (CharacterAttributes[] memory) {
-        return defaultCharaters;
+    function getAllDefaultCharacters() public view returns (CharacterAttribute[] memory) {
+        return defaultCharacters;
     }
 
     // retrieve villan data
