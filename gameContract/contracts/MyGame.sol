@@ -36,6 +36,9 @@ contract MyGame is ERC721 {
     Villan public villan;
     uint randNonce = 0;
 
+    // Owner address of the contract
+    address public owner;
+
     // default character list
     CharacterAttribute[] defaultCharacters;
 
@@ -66,6 +69,8 @@ contract MyGame is ERC721 {
         uint villanMaxHp,
         uint villanAttackDamage
     ) ERC721("Heroes", "HERO") {
+
+        owner = msg.sender;
 
         // initialising Villan
         villan = Villan(villanName, villanImageURI, villanHp, villanMaxHp, villanAttackDamage);
@@ -227,6 +232,12 @@ contract MyGame is ERC721 {
     // retrieve villan data
     function getVillan() public view returns (Villan memory) {
         return villan;
+    }
+
+    function reviveVillan() public {
+        require(msg.sender == owner, "only the owner can Revive villan");
+        villan.hp = villan.maxHp;
+        console.log("villan revived to full hp", villan.hp);
     }
 
 }
