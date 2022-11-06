@@ -6,24 +6,24 @@
   color: white;
 }
 
-.arena-container .boss-container {
+.arena-container .villan-container {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   margin-bottom: 50px;
 }
 
-.boss-container .boss-content {
+.villan-container .villan-content {
   display: flex;
   flex-direction: column;
   padding: 15px;
   border-radius: 10px;
   background-image: linear-gradient(
     to right,
-    #ff8177 0%,
-    #ff867a 0%,
-    #ff8c7f 21%,
-    #f99185 52%,
+    #7799ff 0%,
+    #b67aff 0%,
+    #7fc3ff 21%,
+    #ca85f9 52%,
     #cf556c 78%,
     #b12a5b 100%
   );
@@ -32,19 +32,19 @@
   margin-bottom: 25px;
 }
 
-.boss-content h2 {
+.villan-content h2 {
   margin: 0;
   padding: 5px 0 10px 0;
 }
 
-.boss-content .image-content,
+.villan-content .image-content,
 .player .image-content {
   position: relative;
 }
 
-.boss-content .image-content img {
-  width: 350px;
-  height: 300px;
+.villan-content .image-content img {
+  height: 350px;
+  width: 300px;
   border-radius: 10px;
   object-fit: cover;
 }
@@ -81,6 +81,8 @@
   font-weight: bold;
   color: black;
   bottom: -10px;
+  border-radius: 0 10px 10px 0;
+
 }
 
 .arena-container .players-container {
@@ -96,12 +98,12 @@
   max-height: 80%;
   padding: 10px;
   border-radius: 10px;
-  background-color: gray;
+  background-color: rgba(128, 128, 128, 0.414);
 }
 
 .player .image-content img {
-  width: 250px;
-  height: 300px;
+  height: 350px;
+  width: 300px;
   border-radius: 10px;
   object-fit: cover;
 }
@@ -148,6 +150,10 @@
   justify-content: center;
 }
 
+.stats {
+  margin-bottom: 20px;
+}
+
 .attack-container button {
   height: 60px;
   font-size: 18px;
@@ -157,15 +163,27 @@
 }
 
 /* Effects */
-.boss-container .attacking {
+.villan-container .attacking {
   animation: shake 1.2s cubic-bezier(0.36, 0.07, 0.19, 0.97) both infinite;
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
   perspective: 1000px;
 }
 
-.boss-container .hit {
+.villan-container .hit {
   animation: hit-bounce 1s ease;
+}
+
+.villan-container .loading-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 25px;
+}
+
+.villan-container .loading-indicator p {
+  font-weight: bold;
+  font-size: 28px;
 }
 
 @keyframes shake {
@@ -238,4 +256,109 @@
   height: 90px;
   overflow: hidden;
   white-space: nowrap;
+}
+
+
+#toast.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, expand 0.5s 0.5s, stay 3s 1s, shrink 0.5s 2s,
+    fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, expand 0.5s 0.5s, stay 3s 1s, shrink 0.5s 4s,
+    fadeout 0.5s 4.5s;
+}
+
+@-webkit-keyframes fadein {
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
+}
+
+@keyframes fadein {
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes expand {
+  from {
+    min-width: 50px;
+  }
+  to {
+    min-width: 350px;
+  }
+}
+
+@keyframes expand {
+  from {
+    min-width: 50px;
+  }
+  to {
+    min-width: 350px;
+  }
+}
+@-webkit-keyframes stay {
+  from {
+    min-width: 350px;
+  }
+  to {
+    min-width: 350px;
+  }
+}
+
+@keyframes stay {
+  from {
+    min-width: 350px;
+  }
+  to {
+    min-width: 350px;
+  }
+}
+@-webkit-keyframes shrink {
+  from {
+    min-width: 350px;
+  }
+  to {
+    min-width: 50px;
+  }
+}
+
+@keyframes shrink {
+  from {
+    min-width: 350px;
+  }
+  to {
+    min-width: 50px;
+  }
+}
+
+@-webkit-keyframes fadeout {
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 60px;
+    opacity: 0;
+  }
+}
+
+@keyframes fadeout {
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 60px;
+    opacity: 0;
+  }
 }
