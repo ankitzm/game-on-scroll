@@ -30,7 +30,7 @@ contract MyGame is ERC721 {
         string imageURI;
         uint256 hp;
         uint256 maxHp;
-        uint256 attactDamage;
+        uint256 attackDamage;
     }
 
     Villan public villan;
@@ -87,7 +87,7 @@ contract MyGame is ERC721 {
             CharacterAttribute memory c = defaultCharacters[i];
 
             console.log(
-                "Initialised % with %s, img %s",
+                "Initialised %s with %s, img %s",
                 c.name,
                 c.hp,
                 c.imageURI
@@ -168,7 +168,7 @@ contract MyGame is ERC721 {
         CharacterAttribute storage player = nftHolderAttributes[nftTokenIdOfPlayer];
 
         console.log("Player about to attack - name : %s, hp : %s, AD : %s", player.name, player.hp, player.attackDamage);
-        console.log("Villan %s has %s hp` and %s AD", villan.name, villan.hp, villan.attactDamage);
+        console.log("Villan %s has %s hp` and %s AD", villan.name, villan.hp, villan.attackDamage);
 
         require(
             player.hp > 0, "Error: charater have less HP"
@@ -183,22 +183,18 @@ contract MyGame is ERC721 {
             villan.hp = 0;
             console.log("Villan died");
         } else {
-            if (randMod(10) > 6) {
                 villan.hp = villan.hp - player.attackDamage;
-                console.log("%s got attacked", player.name);
-            } else {
-                console.log("%s missed the attack", player.name);
-            }
+                console.log("%s got attacked", villan.name);
         }
 
         // villan attacking back
-        if(player.hp < villan.attactDamage) {
+        if(player.hp < villan.attackDamage) {
             player.hp = 0;
             console.log("Player died");
         } else {
             if (randMod(10) > 3) {
-                player.hp = player.hp - villan.attactDamage;
-                console.log("%s got attacked", villan.name);
+                player.hp = player.hp - villan.attackDamage;
+                console.log("%s got attacked", player.name);
             } else {
                 console.log("%s missed the attack", villan.name);
             }
