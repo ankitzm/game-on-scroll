@@ -10,22 +10,17 @@ const main = async () => {
 		],
 		[300, 400, 400, 350],
 		[500, 500, 500, 500],
-		[30, 60, 50, 50],
+		[45, 60, 55, 50],
 		"Thanos",
-		"ipfs://QmZpLKWGaXxTEgjGDJhTogNDYCs7TZPgRnFbsHUYrZFSrg/thanos.png",
+		"QmZpLKWGaXxTEgjGDJhTogNDYCs7TZPgRnFbsHUYrZFSrg/thanos.png",
 		800,
 		800,
-		50,
+		30,
 	)
 	await gameContract.deployed()
 
 	console.log("contract deployed at :", gameContract.address)
 	console.log("---")
-
-	let txn
-	txn = await gameContract.mintCharacterNFT(4) // call mint function to mint 2nd nft of array
-	await txn.wait()
-	console.log("Minted NFT #1")
 }
 
 const runMain = async () => {

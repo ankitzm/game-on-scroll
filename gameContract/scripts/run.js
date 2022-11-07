@@ -10,12 +10,12 @@ const main = async () => {
 		],
 		[300, 400, 400, 350],
 		[500, 500, 500, 500],
-		[30, 60, 50, 50],
+		[45, 60, 55, 50],
 		"Thanos",
-		"https://bafybeifkradixv5ge6uq3zj43gipaw3lea64ctfyl7agga33mpfvq37q2u.ipfs.dweb.link/thanos.png",
+		"QmZpLKWGaXxTEgjGDJhTogNDYCs7TZPgRnFbsHUYrZFSrg/thanos.png",
 		800,
 		800,
-		50,
+		30,
 	)
 	await gameContract.deployed()
 
