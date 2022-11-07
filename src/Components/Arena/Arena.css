@@ -228,7 +228,7 @@
 }
 
 /* Toast */
-#toast {
+.toast {
   visibility: hidden;
   max-width: 500px;
   height: 90px;
@@ -246,7 +246,7 @@
   white-space: nowrap;
 }
 
-#toast #desc {
+.toast .desc {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -259,7 +259,7 @@
 }
 
 
-#toast.show {
+.toast.show {
   visibility: visible;
   -webkit-animation: fadein 0.5s, expand 0.5s 0.5s, stay 3s 1s, shrink 0.5s 2s,
     fadeout 0.5s 2.5s;

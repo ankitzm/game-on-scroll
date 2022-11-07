@@ -8,7 +8,7 @@ import {
 } from "./../../utils/constants"
 import LoadingIndicator from "../LoadingIndicator"
 
-const SelectCharacter = ({ setCharacterNFT }) => {
+const SelectCharacter = setCharacterNFT => {
 	const [characters, setCharacters] = useState(null)
 	const [gameContract, setGameContract] = useState(null)
 
@@ -77,7 +77,7 @@ const SelectCharacter = ({ setCharacterNFT }) => {
 				gameContract.off("CharacterNFTMinted", onCharacterMint)
 			}
 		}
-	}, [gameContract])
+	}, [gameContract, setCharacterNFT])
 
 	const mintCharacterNFT = async characterId => {
 		try {
@@ -90,10 +90,11 @@ const SelectCharacter = ({ setCharacterNFT }) => {
 				await mintTxn.wait()
 				console.log("mintTxn : ", mintTxn)
 				alert(
-					`Your NFT is all done -- see it here: https://goerli.pixxiti.com/nfts/${CONTRACT_ADDRESS}/${characterId.toNumber()}`,
+					`Minted !! - see it here: https://testnets.opensea.io/assets/mumbai/${CONTRACT_ADDRESS}/${characterId}`,
 				)
 
 				setMintingCharacter(false)
+				window.location.reload(false)
 			}
 		} catch (error) {
 			console.warn("MintCharaterAction error : ", error)
@@ -106,46 +107,47 @@ const SelectCharacter = ({ setCharacterNFT }) => {
 	return (
 		<>
 			<h2>Mint Your Hero. Choose wisely.</h2>
-			<div className="select-character-container">
-				{/* Rendered Characters */}
 
-				{characters != null &&
-					characters.length > 0 &&
-					characters.map((character, index) => (
-						<div className="character-grid" key={index}>
-							<div
-								className="character-item"
-								key={character.name}
-							>
-								<div className="name-container">
-									<p>{character.name}</p>
+			{!mintingCharacter ? (
+				<div className="select-character-container">
+					{/* Rendered Characters */}
+
+					{characters != null &&
+						characters.length > 0 &&
+						characters.map((character, index) => (
+							<div className="character-grid" key={index}>
+								<div
+									className="character-item"
+									key={character.name}
+								>
+									<div className="name-container">
+										<p>{character.name}</p>
+									</div>
+									<img
+										src={`https://ipfs.io/ipfs/${character.imageURI}`}
+										alt={character.name}
+									/>
+									<button
+										type="button"
+										className="character-mint-button"
+										onClick={() => mintCharacterNFT(index)}
+									>{`Mint ${character.name}`}</button>
 								</div>
-								<img
-									src={character.imageURI}
-									alt={character.name}
-								/>
-								<button
-									type="button"
-									className="character-mint-button"
-									onClick={() => mintCharacterNFT(index)}
-								>{`Mint ${character.name}`}</button>
 							</div>
-						</div>
-					))}
-
-				{mintingCharacter && (
-					<div className="loading">
-						<div className="indicator">
-							<LoadingIndicator />
-							<p>Minting In Progress...</p>
-						</div>
-						<img
-							src="https://media2.giphy.com/media/61tYloUgq1eOk/giphy.gif?cid=ecf05e47dg95zbpabxhmhaksvoy8h526f96k4em0ndvx078s&rid=giphy.gif&ct=g"
-							alt="Minting loading indicator"
-						/>
+						))}
+				</div>
+			) : (
+				<div className="loading">
+					<div className="indicator">
+						<LoadingIndicator />
+						<p>Minting In Progress...</p>
 					</div>
-				)}
-			</div>
+					<img
+						src="https://media2.giphy.com/media/61tYloUgq1eOk/giphy.gif?cid=ecf05e47dg95zbpabxhmhaksvoy8h526f96k4em0ndvx078s&rid=giphy.gif&ct=g"
+						alt="Minting loading indicator"
+					/>
+				</div>
+			)}
 		</>
 	)
 }

@@ -157,7 +157,7 @@ const App = () => {
 			<div className="container">
 				<div className="header-container">
 					<p className="header gradient-text">⚔️ ENDGAME ⚔️</p>
-					<p className="sub-text">Avengers in the Metaverse</p>
+					<p className="sub-text">Avengers in the Metaverse ⚡</p>
 					{renderContent()}
 				</div>
 				<div className="footer-container">
@@ -171,7 +171,7 @@ const App = () => {
 						href={TWITTER_LINK}
 						target="_blank"
 						rel="noreferrer"
-					>{`built with @${TWITTER_HANDLE}`}</a>
+					>{`built with @${TWITTER_HANDLE} 💜`}</a>
 				</div>
 			</div>
 		</div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { ethers } from "ethers"
-import { CONTRACT_ADDRESS, transformVillanData } from "../../utils/constants"
+import { CONTRACT_ADDRESS, transformCharacterData } from "../../utils/constants"
 import myGame from "./../../utils/MyGame.json"
 import "./Arena.css"
 import LoadingIndicator from "../LoadingIndicator"
@@ -36,8 +36,8 @@ function Arena({ characterNFT, currentAccount, setCharacterNFT }) {
 		const fetchVillan = async () => {
 			const villanTxn = await gameContract.getVillan()
 			console.log("Villan : ", villanTxn)
-			console.log("transform", transformVillanData(villanTxn))
-			setVillan(transformVillanData(villanTxn))
+			console.log("transform", transformCharacterData(villanTxn))
+			setVillan(transformCharacterData(villanTxn))
 		}
 
 		// event to update character HP after attack
@@ -47,11 +47,11 @@ function Arena({ characterNFT, currentAccount, setCharacterNFT }) {
 			const sender = from.toString()
 
 			console.log(
-				`Attack Complete : VillanHp- ${villanHp} and PlayerHp - ${playerHp}`,
+				`Attack Complete : VillanHp- ${villanHp} and PlayerHp - ${playerHp} - ${sender}`,
 			)
 
 			// if our player hp updated
-			if (currentAccount === sender.toLowerCare()) {
+			if (currentAccount === sender.toLowerCase()) {
 				setVillan(prevState => {
 					return { ...prevState, hp: villanHp }
 				})
@@ -73,7 +73,7 @@ function Arena({ characterNFT, currentAccount, setCharacterNFT }) {
 			fetchVillan()
 			gameContract.on("AttackComplete", onAttackComplete)
 		}
-	}, [gameContract])
+	}, [gameContract, setCharacterNFT, currentAccount])
 
 	const runAttackAction = async () => {
 		try {
@@ -89,7 +89,7 @@ function Arena({ characterNFT, currentAccount, setCharacterNFT }) {
 				setShowToast(true)
 				setTimeout(() => {
 					setShowToast(false)
-				}, 5000)
+				}, 8000)
 			}
 		} catch (error) {
 			console.error("Error attacking villan : ", error)
@@ -101,8 +101,8 @@ function Arena({ characterNFT, currentAccount, setCharacterNFT }) {
 		<div className="arena-container">
 			{/* Add your toast HTML right here */}
 			{villan && characterNFT && (
-				<div id="toast" className={showToast ? "show" : ""}>
-					<div id="desc">{`💥 ${villan.name} was hit for ${characterNFT.attackDamage}!`}</div>
+				<div className={`toast ${showToast ? "show" : ""}`}>
+					<div className="desc">{`💥 ${villan.name} was hit for ${characterNFT.attackDamage}!`}</div>
 				</div>
 			)}
 
@@ -114,7 +114,8 @@ function Arena({ characterNFT, currentAccount, setCharacterNFT }) {
 						<h2>🔥 {villan.name} 🔥</h2>
 						<div className="image-content">
 							<img
-								src={villan.imageURI}
+								// src={`https://ipfs.io/ipfs/${villan.imageURI}`}
+								src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQczw5NblVSMOzJx0jujbn07S69a2TkJm6kOw&usqp=CAU"
 								alt={`villan ${villan.name}`}
 							/>
 							<div className="health-bar">
@@ -155,7 +156,7 @@ function Arena({ characterNFT, currentAccount, setCharacterNFT }) {
 							<div className="image-content">
 								<h2>{characterNFT.name}</h2>
 								<img
-									src={characterNFT.imageURI}
+									src={`https://ipfs.io/ipfs/${characterNFT.imageURI}`}
 									alt={`Character ${characterNFT.name}`}
 								/>
 								<div className="health-bar">
