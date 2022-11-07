@@ -68,7 +68,7 @@ contract MyGame is ERC721 {
         uint villanHp,
         uint villanMaxHp,
         uint villanAttackDamage
-    ) ERC721("Heroes", "HERO") {
+    ) ERC721("avengers", "AVENGERS") {
 
         owner = msg.sender;
 
@@ -197,7 +197,7 @@ contract MyGame is ERC721 {
             player.hp = 0;
             console.log("Player died");
         } else {
-            if (randMod(10) > 3) {
+            if (randMod(10) > 5) {
                 player.hp = player.hp - villan.attackDamage;
                 console.log("%s got attacked", player.name);
             } else {
