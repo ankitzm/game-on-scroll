@@ -8,10 +8,6 @@ import { CONTRACT_ADDRESS, transformCharacterData } from "./utils/constants"
 import LoadingIndicator from "./Components/LoadingIndicator"
 import Arena from "./Components/Arena"
 
-// Constants
-const TWITTER_HANDLE = "_buildspace"
-const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`
-
 const App = () => {
 	const [currentAccount, setCurrentAccount] = useState(null)
 	const [characterNFT, setCharacterNFT] = useState(null)
@@ -107,7 +103,7 @@ const App = () => {
 	const checkNetwork = async () => {
 		try {
 			const { ethereum } = window
-			if (window.ethereum.networkVersion !== "5") {
+			if (window.ethereum.networkVersion !== "534353") {
 				alert("Please connect to Goerli!")
 			}
 		} catch (error) {
@@ -166,12 +162,6 @@ const App = () => {
 						className="twitter-logo"
 						src={twitterLogo}
 					/>
-					<a
-						className="footer-text"
-						href={TWITTER_LINK}
-						target="_blank"
-						rel="noreferrer"
-					>{`built with @${TWITTER_HANDLE} 💜`}</a>
 				</div>
 			</div>
 		</div>
