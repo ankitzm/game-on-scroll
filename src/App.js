@@ -156,13 +156,6 @@ const App = () => {
 					<p className="sub-text">Avengers in the Metaverse ⚡</p>
 					{renderContent()}
 				</div>
-				<div className="footer-container">
-					<img
-						alt="Twitter Logo"
-						className="twitter-logo"
-						src={twitterLogo}
-					/>
-				</div>
 			</div>
 		</div>
 	)
