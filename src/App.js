@@ -100,16 +100,16 @@ const App = () => {
 		}
 	}
 
-	const checkNetwork = async () => {
-		try {
-			const { ethereum } = window
-			if (window.ethereum.networkVersion !== "534353") {
-				alert("Please connect to Goerli!")
-			}
-		} catch (error) {
-			console.log(error)
-		}
-	}
+	// const checkNetwork = async () => {
+	// 	try {
+	// 		const { ethereum } = window
+	// 		if (window.ethereum.networkVersion !== "534353") {
+	// 			alert("Please connect to Goerli!")
+	// 		}
+	// 	} catch (error) {
+	// 		console.log(error)
+	// 	}
+	// }
 
 	// runs the function once the page loads
 	useEffect(() => {
